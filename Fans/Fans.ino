@@ -42,6 +42,7 @@ const int minValue = 35;
 int address = 0;
 
 
+
 void setup() {
 
   Serial.begin(9600);
@@ -217,17 +218,26 @@ int GetButtonNumberByValue(int value) {   // Новая функция по пр
 
 
 void SetDirection(){
-  if(FanPower){
-    if(FanDirection){
-      digitalWrite(Switch1, HIGH);
-      digitalWrite(Switch2, LOW);
-    }
-    else{    
-      digitalWrite(Switch2, HIGH);
-      digitalWrite(Switch1, LOW);
-    }
+  if(FanPower){   
+      if(FanDirection){
+
+        fans_servo.write(0);
+
+        digitalWrite(Switch1, HIGH);
+        digitalWrite(Switch2, LOW);
+      }
+      else{    
+
+        fans_servo.write(180);
+
+        digitalWrite(Switch2, HIGH);
+        digitalWrite(Switch1, LOW);
+      }    
   }
   else{    
+
+      fans_servo.write(90);
+      
       digitalWrite(Switch1, HIGH);
       digitalWrite(Switch2, HIGH);
   }
