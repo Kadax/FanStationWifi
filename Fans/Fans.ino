@@ -88,8 +88,34 @@ void setup() {
     });
     ArduinoOTA.begin();
     Serial.println("OTA: активна. Ожидание обновление...");
+
+    server.onNotFound(handleNotFound);
+    server.on("/api/status", handleStatus);
+    server.on("/api/power", handlePower);
+    server.on("/api/speed", handleSpeed);
+    server.on("/api/direction", handleDirection);
+    server.on("/api/servo", handleServo);
+    server.on("/api/power/set", [](){ server.handleClient(); SetPower(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.on("/api/speed/set", [](){ server.handleClient(); SetSpeed(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.on("/api/direction/set", [](){ server.handleClient(); SetDirectionValue(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.on("/api/servo/set", [](){ server.handleClient(); SetServo(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.begin();
+    Serial.println("Web API: активна. Ожидание запросов...");
   } else {
     Serial.println("Не удалось подключиться к Wi-Fi, работаю автономно.");
+
+    server.onNotFound(handleNotFound);
+    server.on("/api/status", handleStatus);
+    server.on("/api/power", handlePower);
+    server.on("/api/speed", handleSpeed);
+    server.on("/api/direction", handleDirection);
+    server.on("/api/servo", handleServo);
+    server.on("/api/power/set", [](){ server.handleClient(); SetPower(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.on("/api/speed/set", [](){ server.handleClient(); SetSpeed(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.on("/api/direction/set", [](){ server.handleClient(); SetDirectionValue(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.on("/api/servo/set", [](){ server.handleClient(); SetServo(server.arg("value").toInt()); server.send(200, "text/plain", "OK"); server.handleClient(); });
+    server.begin();
+    Serial.println("Web API: активна. Ожидание запросов...");
   }
 
   EEPROM.begin(512);
@@ -148,7 +174,8 @@ void loop() {
   ShowLedState();
 
   SetDirection();
- 
+  server.handleClient();
+  
 
 }
 
@@ -282,7 +309,6 @@ void SetDirection(){
       }    
   }
   else{    
-
       fans_servo.write(90);
       
       digitalWrite(Switch1, HIGH);
@@ -372,5 +398,64 @@ void ShowLedState(){
         FastLED.show(); // отправляем информацию на ленту 
     }    
   }
+}
+
+void handleNotFound() {
+  server.send(404, "text/plain", "Not found");
+}
+
+void handleStatus() {
+  String json = "{\"power\":\"" + String(FanPower) + 
+                "\",\"direction\":\"" + String(FanDirection) + 
+                "\",\"speed\":" + String(speed) + 
+                ",\"servoPosition\":\"" + String(servoRotation1) + "\"}";
+  server.send(200, "application/json", json);
+}
+
+void handlePower() {
+  String json = "{\"power\":\"" + String(FanPower) + "\"}";
+  server.send(200, "application/json", json);
+}
+
+void handleSpeed() {
+  String json = "{\"speed\":" + String(speed) + "}";
+  server.send(200, "application/json", json);
+}
+
+void handleDirection() {
+  String json = "{\"direction\":\"" + String(FanDirection) + "\"}";
+  server.send(200, "application/json", json);
+}
+
+void handleServo() {
+  String json = "{\"servoPosition\":\"" + String(servoRotation1) + "\"}";
+  server.send(200, "application/json", json);
+}
+
+void SetPower(int value) {
+  value = value == 1 ? 1 : 0;
+  FanPower = value != 0;
+  SetDirection();
+}
+
+void SetSpeed(int value) {
+  if (value < 1) value = 1;
+  if (value > 15) value = 15;
+  speed = value;
+  EEPROM.write(address, speed);
+  EEPROM.commit();
+  SetSpeedMotors();
+}
+
+void SetDirectionValue(int value) {
+  value = value == 1 ? 1 : 0;
+  FanDirection = value != 0;
+  SetDirection();
+}
+
+void SetServo(int value) {
+  value = value == 1 ? 1 : 0;
+  servoRotation1 = value != 0;
+  SetServoPosition();
 }
 
