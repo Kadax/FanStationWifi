@@ -1,6 +1,17 @@
 #include <FastLED.h>
 #include <EEPROM.h>
 #include <Servo.h>
+#include <ArduinoOTA.h>
+
+#include <WiFiClient.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+#include <ESP8266mDNS.h>
+#include <ESP8266WebServer.h>
+
+#include "config.h"
+
+ESP8266WebServer server(80);
 
 #define LED_PIN     D8
 #define NUM_LEDS    20
@@ -46,6 +57,40 @@ int address = 0;
 void setup() {
 
   Serial.begin(9600);
+
+  // ======== Wi-Fi ========
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Подключение к Wi-Fi: ");
+  Serial.println(WIFI_SSID);
+
+  unsigned long start = millis();
+  while (WiFi.status() != WL_CONNECTED && (millis() - start) < 15000) {
+    delay(250);
+    Serial.print(".");
+  }
+
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println();
+    Serial.print("Wi-Fi подключён, IP: ");
+    Serial.println(WiFi.localIP());
+
+    // ======== OTA ========
+    ArduinoOTA.setHostname(OTA_HOSTNAME);
+    if (strlen(OTA_PASSWORD) > 0) {
+      ArduinoOTA.setPassword(OTA_PASSWORD);
+    }
+    ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+      Serial.printf("Прогресс OTA: %u%%\n", (progress * 100) / total);
+    });
+    ArduinoOTA.onError([](ota_error_t error) {
+      Serial.printf("Ошибка OTA: %u\n", error);
+    });
+    ArduinoOTA.begin();
+    Serial.println("OTA: активна. Ожидание обновление...");
+  } else {
+    Serial.println("Не удалось подключиться к Wi-Fi, работаю автономно.");
+  }
 
   EEPROM.begin(512);
 
@@ -93,6 +138,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+
+  ArduinoOTA.handle(); // обработчик обновления прошивки по Wi-Fi — ВСЕГДА в начале loop()
 
   UpdateKeyValue();
 
@@ -221,14 +268,14 @@ void SetDirection(){
   if(FanPower){   
       if(FanDirection){
 
-        fans_servo.write(0);
+        fans_servo.write(155);
 
         digitalWrite(Switch1, HIGH);
         digitalWrite(Switch2, LOW);
       }
       else{    
 
-        fans_servo.write(180);
+        fans_servo.write(0);
 
         digitalWrite(Switch2, HIGH);
         digitalWrite(Switch1, LOW);
