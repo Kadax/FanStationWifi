@@ -1,2 +1,9 @@
 Fans/config.h
-/FanWorker/.vs/FanWorker.slnx
+FanWorker/.vs/
+FanWorker/bin/
+*appsettings.json
+FanWorker/FanModelDB/appsettings.json
+FanWorker/FanModelDB/bin/
+FanWorker/FanModelDB/obj/
+FanWorker/FanWorker/bin/
+FanWorker/FanWorker/obj/

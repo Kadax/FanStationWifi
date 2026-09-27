@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FanWorker": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

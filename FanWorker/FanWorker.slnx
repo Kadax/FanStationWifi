@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="E:/Arduino/FanStationWifi/FanWorker/FanModelDB/FanModelDB.csproj" />
+  <Project Path="E:/Arduino/FanStationWifi/FanWorker/FanWorker/FanWorker.csproj" />
+</Solution>
