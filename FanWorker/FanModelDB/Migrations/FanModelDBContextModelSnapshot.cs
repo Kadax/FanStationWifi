@@ -266,6 +266,24 @@ namespace FanModelDB.Migrations
                     b.Property<bool>("isAuto")
                         .HasColumnType("boolean");
 
+                    b.Property<double?>("maxDelta")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("maxDeltaExternal")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("minDelta")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("minExternal")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("minRoom")
+                        .HasColumnType("double precision");
+
+                    b.Property<double?>("topDelteRoom")
+                        .HasColumnType("double precision");
+
                     b.Property<DateTime>("updateAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -286,6 +304,12 @@ namespace FanModelDB.Migrations
                             ProfileId = 1,
                             createAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             isAuto = false,
+                            maxDelta = 3.0,
+                            maxDeltaExternal = 5.0,
+                            minDelta = 0.0,
+                            minExternal = 5.0,
+                            minRoom = -1.0,
+                            topDelteRoom = 3.0,
                             updateAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
