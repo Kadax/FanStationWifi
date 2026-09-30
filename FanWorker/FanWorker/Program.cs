@@ -1,4 +1,5 @@
 ﻿using FanModelDB;
+using FanWorker;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -55,11 +56,14 @@ try
     int timeout = 1;
 
     var types = await db.SensorTypes.ToListAsync();
+    
+    var esp8266Client = new ESP8266Client(config.GetValue<string>("FanStation:address"), logger);
 
     while (true)
     {
 
         logger.Log(LogLevel.Information, $"Step {DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")}");
+
 
 
 
@@ -74,6 +78,21 @@ try
                 timeout = settings.PeriodUpdete;
 
                 var sensors = db.Sensors.Where(i => i.IsActive).ToList();
+                                             
+                logger.Log(LogLevel.Information, $"Fetching Fans status");
+                var fansStatus = await esp8266Client.GetStatusAsync();
+
+                if (fansStatus != null)
+                {
+                    logger.Log(LogLevel.Information,
+                        $"Fans state - Power: {fansStatus.Power}, Direction: {fansStatus.Direction}, " +
+                        $"Speed: {fansStatus.Speed}, ServoPosition: {fansStatus.ServoPosition}");
+                }
+                else
+                {
+                    logger.LogWarning("Could not fetch Fans status");
+                }
+                
 
                 foreach (var sensor in sensors) {
 
