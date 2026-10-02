@@ -78,29 +78,10 @@ public class ESP8266Client
         }
     }
 
-    public async Task<bool> SetPowerAsync(string address, int value)
+    public async Task<bool> SetPowerAsync(int value)
     {
-        if (string.IsNullOrWhiteSpace(address))
-        {
-            throw new ArgumentException("Address cannot be empty or whitespace", nameof(address));
-        }
-
-        if (value != 0 && value != 1)
-        {
-            value = 0;
-            _logger.LogWarning("Invalid power value {Value}. Setting to 0", value);
-        }
-
-        if (address.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || address.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-        {
-            address = address.TrimEnd('/');
-        }
-        else
-        {
-            address = $"http://{address.TrimEnd('/')}";
-        }
-
-        var powerSetUrl = $"{address}/api/power/set?value={value}";
+        
+        var powerSetUrl = $"{_address}/api/power/set?value={value}";
 
         _logger.LogInformation("Sending FanStation power control: {Value}", value);
 
@@ -137,29 +118,10 @@ public class ESP8266Client
         }
     }
 
-    public async Task<bool> SetSpeedAsync(string address, int value)
-    {
-        if (string.IsNullOrWhiteSpace(address))
-        {
-            throw new ArgumentException("Address cannot be empty or whitespace", nameof(address));
-        }
+    public async Task<bool> SetSpeedAsync(int value)
+    {                              
 
-        if (value < 1 || value > 15)
-        {
-            _logger.LogWarning("Invalid speed value {Value}. Clamping to 1-15 range", value);
-            value = Math.Clamp(value, 1, 15);
-        }
-
-        if (address.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || address.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-        {
-            address = address.TrimEnd('/');
-        }
-        else
-        {
-            address = $"http://{address.TrimEnd('/')}";
-        }
-
-        var speedSetUrl = $"{address}/api/speed/set?value={value}";
+        var speedSetUrl = $"{_address}/api/speed/set?value={value}";
 
         _logger.LogInformation("Sending FanStation speed control: {Value}", value);
 
@@ -196,29 +158,11 @@ public class ESP8266Client
         }
     }
 
-    public async Task<bool> SetDirectionAsync(string address, int value)
+    public async Task<bool> SetDirectionAsync(int value)
     {
-        if (string.IsNullOrWhiteSpace(address))
-        {
-            throw new ArgumentException("Address cannot be empty or whitespace", nameof(address));
-        }
+        
 
-        if (value != 0 && value != 1)
-        {
-            value = 0;
-            _logger.LogWarning("Invalid direction value {Value}. Setting to 0", value);
-        }
-
-        if (address.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || address.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-        {
-            address = address.TrimEnd('/');
-        }
-        else
-        {
-            address = $"http://{address.TrimEnd('/')}";
-        }
-
-        var directionSetUrl = $"{address}/api/direction/set?value={value}";
+        var directionSetUrl = $"{_address}/api/direction/set?value={value}";
 
         _logger.LogInformation("Sending FanStation direction control: {Value}", value);
 
@@ -255,29 +199,10 @@ public class ESP8266Client
         }
     }
 
-    public async Task<bool> SetServoAsync(string address, int value)
+    public async Task<bool> SetServoAsync(int value)
     {
-        if (string.IsNullOrWhiteSpace(address))
-        {
-            throw new ArgumentException("Address cannot be empty or whitespace", nameof(address));
-        }
-
-        if (value != 0 && value != 1)
-        {
-            value = 0;
-            _logger.LogWarning("Invalid servo value {Value}. Setting to 0", value);
-        }
-
-        if (address.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || address.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-        {
-            address = address.TrimEnd('/');
-        }
-        else
-        {
-            address = $"http://{address.TrimEnd('/')}";
-        }
-
-        var servoSetUrl = $"{address}/api/servo/set?value={value}";
+        
+        var servoSetUrl = $"{_address}/api/servo/set?value={value}";
 
         _logger.LogInformation("Sending FanStation servo control: {Value}", value);
 

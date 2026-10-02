@@ -59,13 +59,14 @@ try
     
     var esp8266Client = new ESP8266Client(config.GetValue<string>("FanStation:address"), logger);
 
+    var calc = new CalculateSpeed();
+
     while (true)
     {
 
         logger.Log(LogLevel.Information, $"Step {DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")}");
 
-
-
+        var date = DateTime.Now;
 
         var p = await db.Profiles.FirstOrDefaultAsync(i => i.IsActive == true);
 
@@ -78,7 +79,7 @@ try
                 timeout = settings.PeriodUpdete;
 
                 var sensors = db.Sensors.Where(i => i.IsActive).ToList();
-                                             
+
                 logger.Log(LogLevel.Information, $"Fetching Fans status");
                 var fansStatus = await esp8266Client.GetStatusAsync();
 
@@ -92,21 +93,23 @@ try
                 {
                     logger.LogWarning("Could not fetch Fans status");
                 }
-                
 
-                foreach (var sensor in sensors) {
+
+                foreach (var sensor in sensors)
+                {
 
                     if (types.First(i => i.Id == sensor.TypeId).Source == "Prometheus")
                     {
                         var sensorValue = await prometheusClient.GetSensorValueAsync(config.GetValue<string>("Prometheus:ServerAddress"), sensor.SensorExtID);
 
-                       // Console.WriteLine($"Value: {sensorValue.Value}");
+                        // Console.WriteLine($"Value: {sensorValue.Value}");
 
                         if (sensorValue != null)
                         {
                             await db.SensorsHistory.AddAsync(new SensorsHistory()
                             {
                                 SensorId = sensor.Id,
+                                Date = date,
                                 Value = (double)sensorValue
                             });
 
@@ -114,6 +117,34 @@ try
                         }
                     }
                 }
+
+                var sh = await db.SensorsHistory.Where(i => i.Date >= date.AddHours(-1) && i.Sensor.TypeId == 1).ToListAsync();
+                var extTemp = await db.SensorsHistory.OrderByDescending(i => i.Date).FirstOrDefaultAsync(i => i.Sensor.TypeId == 2);
+
+                var speed = calc.Calculate(settings, sh, extTemp.Value);
+
+                if (settings.isAuto) {
+
+                    if (speed.Speed != fansStatus.Speed)
+                    {
+                        await esp8266Client.SetSpeedAsync(speed.Speed);
+                    }
+
+                    if (speed.ServoPosition != fansStatus.ServoPosition)
+                    {
+                        await esp8266Client.SetServoAsync(speed.ServoPosition);
+                    }
+
+                    if (speed.Direction != fansStatus.Direction)
+                    {
+                        await esp8266Client.SetDirectionAsync(speed.Direction);
+                    }
+
+                }
+
+                logger.LogInformation(speed.Speed.ToString());
+
+
             }
         }
 
