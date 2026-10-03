@@ -12,13 +12,12 @@ namespace FanModelDB
 
         [ForeignKey("ProfileId")]
         public virtual Profile Profile { set; get; }
-        public int? ProfileId { set; get; }
-        
+        public int ProfileId { set; get; }          
 
 
         public int MaxSpeed { set; get; }
-        public DateTime Start { set; get; }
-        public DateTime End { set; get; }
+        public TimeSpan Start { set; get; }
+        public TimeSpan End { set; get; }
 
         public DateTime createAt { set; get; }
         public DateTime updateAt { set; get; }

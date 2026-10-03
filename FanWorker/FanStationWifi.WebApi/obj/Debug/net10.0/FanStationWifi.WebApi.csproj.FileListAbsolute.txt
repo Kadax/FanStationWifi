@@ -1,0 +1,9 @@
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.csproj.AssemblyReference.cache
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\rpswa.dswa.cache.json
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.GeneratedMSBuildEditorConfig.editorconfig
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.AssemblyInfoInputs.cache
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.AssemblyInfo.cs
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.csproj.CoreCompileInputs.cache
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.MvcApplicationPartsAssemblyInfo.cs
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.MvcApplicationPartsAssemblyInfo.cache
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.sourcelink.json

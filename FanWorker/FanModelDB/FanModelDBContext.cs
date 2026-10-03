@@ -53,9 +53,9 @@ namespace FanModelDB
             );
 
             modelBuilder.Entity<Period>().HasData(
-                new Period { Id = 1, ProfileId = 1, Name = "Вечер", MaxSpeed = 8, Start = new DateTime(2000, 1, 1, 18, 00, 00), End = new DateTime(2000, 1, 1, 23, 59, 59), createAt = new DateTime(), updateAt = new DateTime() },
-                new Period { Id = 2, ProfileId = 1, Name = "Ночь", MaxSpeed = 4, Start = new DateTime(2000, 1, 1, 0, 00, 00), End = new DateTime(2000, 1, 1, 8, 0, 0), createAt = new DateTime(), updateAt = new DateTime() },
-                new Period { Id = 3, ProfileId = 1, Name = "День", MaxSpeed = 8, Start = new DateTime(2000, 1, 1, 8, 00, 00), End = new DateTime(2000, 1, 1, 18, 0, 0), createAt = new DateTime(), updateAt = new DateTime() }                     
+                new Period { Id = 1, ProfileId = 1, Name = "Вечер", MaxSpeed = 8, Start = new TimeSpan(0, 18, 00, 00), End = new TimeSpan(0, 23, 59, 59), createAt = new DateTime(), updateAt = new DateTime() },
+                new Period { Id = 2, ProfileId = 1, Name = "Ночь", MaxSpeed = 4, Start = new TimeSpan(0, 0, 00, 00), End = new TimeSpan(0, 8, 0, 0), createAt = new DateTime(), updateAt = new DateTime() },
+                new Period { Id = 3, ProfileId = 1, Name = "День", MaxSpeed = 8, Start = new TimeSpan(0, 8, 00, 00), End = new TimeSpan(0, 18, 0, 0), createAt = new DateTime(), updateAt = new DateTime() }                     
             );
 
             modelBuilder.Entity<Settings>().HasData(
