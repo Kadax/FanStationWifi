@@ -1,30 +1,38 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Options;
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Options;
 
 namespace FanStationWifi.WebApi.Extensions;
 
-public class ApiKeyAuthenticationOptions : AuthenticationSchemeOptions { }
+public class ApiKeyAuthenticationOptions : AuthenticationSchemeOptions {
+
+    public const string DefaultScheme = "ApiKey";
+
+    // Свойство, определяющее, в каком HTTP-заголовке искать ключ
+    public string ApiKeyHeaderName { get; set; } = "X-API-KEY";
+}
 
 public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthenticationOptions>
-{
-    private const string ApiKeyHeaderName = "X-API-KEY";
-    private readonly IConfiguration _configuration;
+{                                                      
+    //public const string ApiKeyHeaderName = "X-API-KEY";
+    private readonly IConfiguration _configuration;    
+    private string ApiKeyHeaderName = "X-API-KEY";
 
     public ApiKeyAuthenticationHandler(
         IConfiguration configuration,
-        IOptions<ApiKeyAuthenticationOptions> options,
+        IOptionsMonitor<ApiKeyAuthenticationOptions> options,
         ILoggerFactory logger,
-        System.Text.Encodings.Web.UrlEncoder encoder,
-        ISystemClock clock)
-        : base(options, logger, encoder, clock)
+        System.Text.Encodings.Web.UrlEncoder encoder)
+        : base(options, logger, encoder)
     {
         _configuration = configuration;
+        ApiKeyHeaderName = options.CurrentValue.ApiKeyHeaderName;
     }
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        if (!Request.Headers.TryGetValue(ApiKeyHeaderName, out var extractedApiKey))
+        if (!Request.Headers.TryGetValue( ApiKeyHeaderName, out var extractedApiKey))
         {
             return AuthenticateResult.Fail("API Key не найден");
         }
@@ -36,13 +44,13 @@ public class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthentic
             return AuthenticateResult.Fail("API Key не настроен");
         }
 
-        var providedKeyBytes = Encoding.UTF8.GetBytes(extractedApiKey);
-        var storedKeyBytes = Encoding.UTF8.GetBytes(apiKey);
+        var providedKeyBytes = Encoding.UTF8.GetBytes(extractedApiKey!);
+        var storedKeyBytes = Encoding.UTF8.GetBytes(apiKey!);
 
         if (System.Security.Cryptography.CryptographicOperations.FixedTimeEquals(providedKeyBytes, storedKeyBytes))
         {
             var identities = new List<System.Security.Claims.ClaimsIdentity> { new System.Security.Claims.ClaimsIdentity("ApiKey") };
-            var ticket = new System.Security.Authentication.AuthenticationTicket(new System.Security.Claims.ClaimsPrincipal(identities), "ApiKey");
+            var ticket = new AuthenticationTicket(new System.Security.Claims.ClaimsPrincipal(identities), "ApiKey");
             return AuthenticateResult.Success(ticket);
         }
 

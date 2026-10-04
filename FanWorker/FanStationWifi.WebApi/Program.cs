@@ -2,6 +2,7 @@ using FanModelDB;
 using FanStationWifi.WebApi.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,23 +31,24 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Введите API ключ для доступа к API"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "ApiKey"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
+    
+    //c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    //{
+    //    {
+    //        new OpenApiSecurityScheme
+    //        {
+    //            Type = SecuritySchemeType.ApiKey,
+    //            Name = "X-API-KEY",
+    //            In = ParameterLocation.Header
+
+
+    //        };
+    //        new List<string>();
+    //    }
+    //});
 });
 
-builder.Services.ConfigureMappings();
+//builder.Services.ConfigureMappings();
 
 var app = builder.Build();
 

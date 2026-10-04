@@ -25,7 +25,7 @@ public class PeriodsController : ControllerBase
         return Ok(await _periodService.GetAllPeriodsByProfileIdAsync(profileId));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("id/{id}")]
     [ProducesResponseType(typeof(PeriodDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<PeriodDTO>> GetPeriodById(int id)
@@ -47,7 +47,7 @@ public class PeriodsController : ControllerBase
         return CreatedAtAction(nameof(GetPeriodById), new { id = period.Id }, period);
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("id/{id}")]
     [ProducesResponseType(typeof(PeriodDTO), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -57,7 +57,7 @@ public class PeriodsController : ControllerBase
         return period == null ? NotFound() : Ok(period);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("id/{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeletePeriod(int id)

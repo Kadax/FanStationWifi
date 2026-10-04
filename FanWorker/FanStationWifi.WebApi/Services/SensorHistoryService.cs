@@ -2,6 +2,7 @@ using AutoMapper;
 using FanModelDB;
 using FanStationWifi.WebApi.DTOs;
 using FanStationWifi.WebApi.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace FanStationWifi.WebApi.Services;
 
