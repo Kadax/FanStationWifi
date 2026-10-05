@@ -439,9 +439,9 @@
               "target": "Package",
               "version": "[16.2.0, )"
             },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+            "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[12.0.1, )"
+              "version": "[10.0.12, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

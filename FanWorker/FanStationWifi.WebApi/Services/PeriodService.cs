@@ -40,8 +40,8 @@ public class PeriodService : IPeriodService
         {
             Name = dto.Name,
             MaxSpeed = dto.MaxSpeed,
-            Start = TimeSpan.FromHours(dto.StartHour).Add(TimeSpan.FromMinutes(dto.StartMinute)),
-            End = TimeSpan.FromHours(dto.EndHour).Add(TimeSpan.FromMinutes(dto.EndMinute)),
+            Start = new DateTime(2000, 1, 1, dto.StartHour, dto.StartMinute, 00),
+            End = new DateTime(2000, 1, 1, dto.EndHour, dto.EndMinute, 00),
             ProfileId = dto.ProfileId
         };
 
@@ -60,8 +60,8 @@ public class PeriodService : IPeriodService
 
         period.Name = dto.Name;
         period.MaxSpeed = dto.MaxSpeed;
-        period.Start = TimeSpan.FromHours(dto.StartHour).Add(TimeSpan.FromMinutes(dto.StartMinute));
-        period.End = TimeSpan.FromHours(dto.EndHour).Add(TimeSpan.FromMinutes(dto.EndMinute));
+        period.Start = new DateTime(2000, 1, 1, dto.StartHour, dto.StartMinute, 00);
+        period.End = new DateTime(2000, 1, 1, dto.EndHour, dto.EndMinute, 00);
 
         await _context.SaveChangesAsync();
 

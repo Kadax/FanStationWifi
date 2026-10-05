@@ -16,8 +16,8 @@ namespace FanModelDB
 
 
         public int MaxSpeed { set; get; }
-        public TimeSpan Start { set; get; }
-        public TimeSpan End { set; get; }
+        public DateTime Start { set; get; }
+        public DateTime End { set; get; }
 
         public DateTime createAt { set; get; }
         public DateTime updateAt { set; get; }

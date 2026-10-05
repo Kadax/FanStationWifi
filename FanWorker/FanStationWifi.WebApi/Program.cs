@@ -11,9 +11,12 @@ var configuration = builder.Configuration;
 builder.Services.AddDbContext<FanModelDBContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(typeof(Program));
+//builder.Services.AddAutoMapper(typeof(Program));  
+
+builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -23,41 +26,32 @@ builder.Services.AddSwaggerGen(c =>
         Description = "REST API для управления системой вентиляции FanStationWifi"
     });
 
-    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.ApiKey,
-        In = ParameterLocation.Header,
-        Name = "X-API-KEY",
-        Description = "Введите API ключ для доступа к API"
-    });
-
-    
-    //c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    //c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     //{
-    //    {
-    //        new OpenApiSecurityScheme
-    //        {
-    //            Type = SecuritySchemeType.ApiKey,
-    //            Name = "X-API-KEY",
-    //            In = ParameterLocation.Header
-
-
-    //        };
-    //        new List<string>();
-    //    }
+    //    Type = SecuritySchemeType.ApiKey,
+    //    In = ParameterLocation.Header,
+    //    Name = "X-API-KEY",
+    //    Description = "Введите API ключ для доступа к API"
     //});
+                     
 });
+
 
 //builder.Services.ConfigureMappings();
 
 var app = builder.Build();
 
+//app.UseRouting();
+
 app.UseSwagger();
+
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "FanStation API V1");
     c.RoutePrefix = string.Empty;
 });
+
+app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {

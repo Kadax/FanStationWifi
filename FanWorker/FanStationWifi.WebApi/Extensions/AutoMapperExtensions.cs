@@ -8,6 +8,6 @@ public static class AutoMapperExtensions
 {
     public static void ConfigureMappings(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(Program));
+        //services.AddAutoMapper(typeof(Program));
     }
 }

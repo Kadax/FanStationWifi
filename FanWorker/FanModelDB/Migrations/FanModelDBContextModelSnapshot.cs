@@ -40,7 +40,7 @@ namespace FanModelDB.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ProfileId")
+                    b.Property<int>("ProfileId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Start")
@@ -318,7 +318,9 @@ namespace FanModelDB.Migrations
                 {
                     b.HasOne("FanModelDB.Profile", "Profile")
                         .WithMany()
-                        .HasForeignKey("ProfileId");
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Profile");
                 });
