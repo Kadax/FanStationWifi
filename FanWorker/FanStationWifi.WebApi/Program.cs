@@ -1,5 +1,6 @@
 using FanModelDB;
 using FanStationWifi.WebApi.Extensions;
+using FanStationWifi.WebApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Microsoft.AspNetCore.Authentication;
@@ -11,7 +12,13 @@ var configuration = builder.Configuration;
 builder.Services.AddDbContext<FanModelDBContext>(options =>
     options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-//builder.Services.AddAutoMapper(typeof(Program));  
+// Register services
+builder.Services.AddScoped<ISensorService, SensorService>();
+builder.Services.AddScoped<ISensorTypeService, SensorTypeService>();
+builder.Services.AddScoped<ISettingsService, SettingsService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IPeriodService, PeriodService>();
+builder.Services.AddScoped<ISensorHistoryService, SensorHistoryService>();
 
 builder.Services.AddControllers();
 
@@ -37,7 +44,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 
-//builder.Services.ConfigureMappings();
+builder.Services.ConfigureMappings();
 
 var app = builder.Build();
 

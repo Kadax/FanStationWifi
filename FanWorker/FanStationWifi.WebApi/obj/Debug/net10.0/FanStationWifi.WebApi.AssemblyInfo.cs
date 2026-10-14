@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FanStationWifi.WebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1022696c5a169559bca5f06eba4f3d9fd3b92d4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+407e627c939eeb77816e47ed7fc2e886effc9e5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("FanStationWifi.WebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FanStationWifi.WebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

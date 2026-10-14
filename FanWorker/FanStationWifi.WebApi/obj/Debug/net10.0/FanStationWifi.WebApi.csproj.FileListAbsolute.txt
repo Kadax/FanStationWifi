@@ -46,7 +46,7 @@ E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\refi
 E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.pdb
 E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.genruntimeconfig.cache
 E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\ref\FanStationWifi.WebApi.dll
-E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\bin\Debug\net10.0\FanStationWifi.WebApi.xml
 E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
 E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\FanStationWifi.WebApi.xml
+E:\Arduino\FanStationWifi\FanWorker\FanStationWifi.WebApi\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
