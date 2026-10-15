@@ -1,0 +1,12 @@
+{
+  "name": "fanstationwifi",
+  "version": "1.0.0",
+  "description": "Проект управления станцией вентиляции на Arduino: регулировка скорости вентилятора, переключение направления потока воздуха, управление servo-заслонками и индикация состояния на светодиодной ленте.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
